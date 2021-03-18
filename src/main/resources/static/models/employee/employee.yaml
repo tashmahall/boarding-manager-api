@@ -1,0 +1,35 @@
+Employee:
+  title: Employee
+  description: Worker that can be boarded or landed
+  type: object
+  required:
+    - cpf
+    - name
+    - company_name
+    - function_name
+  properties:
+    cpf:
+      type: string
+      description: 'The Employee CPF'
+      minLength: 11
+      maxLength: 11 
+      example: '11122233344'
+    name:
+      type: string
+      description: 'Employee Name'
+      example: 'Luis Fernando Verissimo'
+    company_name:
+      type: string
+      description: 'Company Name'
+      example: 'Hali Bourton'
+    function_name:
+      type: string
+      description: 'Function Name'
+      example: 'Oil and Gas Technician'  
+    boarding_status:
+      $ref: '../enums/boarding-status-enum.yaml#/BoardingStatusEnum'
+    boarding_date:
+      type: string
+      format: date-time
+      description: 'Date and time that boarding status has been changed'
+      example: '2020-03-23T20:49:28.168Z' 

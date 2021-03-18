@@ -1,0 +1,45 @@
+Page:  
+  title: Page
+  description: Página contendo os metadados de uma pesquisa.
+  type: object
+  readOnly: true  
+  required:
+    - size
+    - total_elements
+    - total_pages
+    - page
+    - page_elements
+    - _links
+  properties:
+    size: 
+      description: Número máximo de elementos na página.
+      type: integer
+      format: int32
+      readOnly: true
+      example: 10
+    total_elements:
+      description: Número total de elementos.
+      type: integer
+      format: int32
+      readOnly: true
+      example: 95
+    total_pages:
+      description: Número total de páginas.
+      type: integer
+      format: int32
+      readOnly: true
+      example: 10
+    page:
+      description: Número da página corrente. Inicia em zero.
+      type: integer
+      format: int32 
+      readOnly: true
+      example: 0
+    page_elements:
+      description: Número de elementos na página corrente.
+      type: integer
+      format: int32
+      readOnly: true
+      example: 10 
+    _links:
+      $ref: 'links-paginacao.yaml#/LinksPaginacao'

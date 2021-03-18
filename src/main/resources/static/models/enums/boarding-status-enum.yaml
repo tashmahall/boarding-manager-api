@@ -1,0 +1,8 @@
+BoardingStatusEnum:
+  title: Enum of boarding status
+  description: Boarding status
+  example: "LANDED"
+  type: string     
+  enum: 
+    - BOARDED
+    - LANDED

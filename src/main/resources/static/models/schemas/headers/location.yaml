@@ -1,0 +1,7 @@
+Location:
+  name: Location
+  description: URI para o recurso criado.
+  schema:
+    type: string
+    example: https://localhost:8080/v1/exemplos/1
+

@@ -1,0 +1,49 @@
+PropertyError:
+  title: Property Error
+  description: Mensagem que agrupa erros de validação de informações enviadas na requisição.
+  type: object
+  readOnly: true  
+  required:
+    - status
+    - message
+    - timestamp
+  properties:
+    status:
+      type: integer
+      description: HTTP Status Code.
+      readOnly: true    
+      example: 422
+    message:
+      type: string
+      description: Mensagem legível explicando a ocorrêcia do problema.
+      readOnly: true    
+      example: Erro de validação
+    timestamp:
+      type: string
+      format: date-time
+      readOnly: true    
+      description: Data e hora da requisição utilizando o padrão ISO-8601.
+    property_error:
+      description: Detalhamento de cada erro de validação. 
+      type: array
+      items:
+        required:
+          - property
+          - message
+          - invalid_value
+        properties:
+          property:
+            type: string
+            description: Nome da propriedade.
+            readOnly: true      
+            example: idade
+          message:
+            type: string
+            description: Mensagem legível explicando a ocorrência do problema.
+            readOnly: true      
+            example: Deve ser um número positivo.
+          invalid_value:
+            type: string
+            description: Valor enviado na requisição.
+            readOnly: true      
+            example: -1

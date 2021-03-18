@@ -1,0 +1,7 @@
+Total-Elements:
+  name: Total-Elements
+  description: Número total de elementos.
+  schema:
+    type: integer
+    format: int32
+    example: 95

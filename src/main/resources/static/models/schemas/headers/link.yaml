@@ -1,0 +1,6 @@
+Link:
+  name: Link
+  description: Links para navegação (página atual, próxima página, última página, etc.) baseada na pesquisa executada.
+  schema:
+    type: string
+    example: '<https://localhost:8080/v1/exemplo?size=10&page=5>;rel="self",<https://localhost:8080/v1/exemplo?size=10&page=0>;rel="first",<https://localhost:8080/v1/exemplo?size=10&page=4>;rel="prev",<https://localhost:8080/v1/exemplo?size=10&page=6>;rel="next",<https://localhost:8080/v1/exemplo?size=10&page=9>;rel="last"'

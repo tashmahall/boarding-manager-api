@@ -1,0 +1,11 @@
+EmployeePage:  
+  title: Employee List
+  description: Employee list pagination.
+  allOf:
+    - $ref: '../schemas/page.yaml#/Page'
+    - type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: 'employee.yaml#/Employee'

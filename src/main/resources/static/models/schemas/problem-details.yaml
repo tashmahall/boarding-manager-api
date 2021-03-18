@@ -1,0 +1,37 @@
+ProblemDetails:
+  title: Problem Details
+  description: Mensagem de erro padrão para APIs seguindo o padrão da RCF 7807.
+  type: object
+  readOnly: true  
+  required:
+    - status
+    - title
+    - timestamp
+  properties:
+    type:
+      description: URI que identifica o tipo de problema. Deve ser utilizado quando há necessidade de detalhamento mais profundo do problema. 
+      type: string
+      format: uri
+      readOnly: true      
+      example: https://apis.exemplos/erros/0701
+    status:
+      description: HTTP Status Code.
+      type: integer
+      format: int32 
+      readOnly: true    
+    title:
+      description: Mensagem curta e legível. Não deve mudar de ocorrência a ocorrência. 
+      type: string
+      readOnly: true    
+      example: Mensagem explicativa e imutável.
+    detail:
+      description: Mensagem contendo detalhes da ocorrência (instância).  
+      type: string
+      readOnly: true    
+      example: Detalhamento do problema com informações da ocorrência (instância).
+    timestamp:
+      description: Momento que a requisição foi submetida no padrão ISO-8601. 
+      type: string
+      format: date-time
+      readOnly: true
+

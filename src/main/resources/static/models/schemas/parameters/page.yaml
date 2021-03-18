@@ -1,0 +1,11 @@
+PageQueryParam:
+  in: query
+  name: page
+  description: Número da página com os itens da pesquisa.
+  required: false
+  schema:
+    type: integer
+    format: int32
+    minimum: 0
+    default: 0
+    example: 5

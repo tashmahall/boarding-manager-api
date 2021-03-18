@@ -1,0 +1,58 @@
+LinksPaginacao:
+  title: Links Paginação
+  description: Links para navegação (página atual, próxima página, última página, etc.) baseada na pesquisa executada.
+  type: object
+  readOnly: true  
+  required:
+    - self
+  properties:
+    self:
+      type: object
+      readOnly: true    
+      properties:
+        href:
+          description: URL contendo a requisição para a página atual da pesquisa.
+          type: string
+          format: uri
+          readOnly: true
+          example: 'https://localhost:8080/v1/exemplos?size=10&page=5'
+    first:
+      type: object
+      readOnly: true    
+      properties:
+        href:
+          description: URL contendo a requisição para a primeira página da pesquisa.
+          type: string
+          format: uri
+          readOnly: true
+          example: 'https://localhost:8080/v1/exemplos?size=10&page=0'
+    prev:
+      type: object
+      readOnly: true    
+      properties:
+        href:
+          description: URL contendo a requisição para a página anterior da pesquisa.
+          type: string
+          format: uri
+          readOnly: true
+          example: 'https://localhost:8080/v1/exemplos?size=10&page=4'   
+    next:
+      type: object
+      readOnly: true    
+      properties:
+        href:
+          description: URL contendo a requisição para a próxima página da pesquisa.
+          type: string
+          format: uri
+          readOnly: true
+          example: 'https://localhost:8080/v1/exemplos?size=10&page=6'                
+    last:
+      type: object
+      readOnly: true    
+      properties:
+        href:
+          description: URL contendo a requisição para a última página da pesquisa.
+          type: string
+          format: uri
+          readOnly: true
+          example: 'https://localhost:8080/v1/exemplos?size=10&page=9'
