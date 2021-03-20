@@ -21,7 +21,7 @@ Employee:
     company_name:
       type: string
       description: 'Company Name'
-      example: 'Hali Bourton'
+      example: 'Halibourton'
     function_name:
       type: string
       description: 'Function Name'

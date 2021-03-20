@@ -1,33 +1,34 @@
-﻿openapi: 3.0.0
-info: 
+openapi: 3.0.0
+info:
+  version: '1.0'
   description: Projeto do Processo Seletivo Halliburton
   title: Boarding Manager API
   contact:
     email: igorfs.pro@gmail.com
     name: Igor Santos
 tags:
-  - name: Employees
-    description: 'API Employees of Oil and Gas Technicians'
+- name: Employees
+  description: API Employees of Oil and Gas Technicians
 paths:
   /employees:
     get:
       tags:
-        - Employees
+      - Employees
       summary: Employees List
       description: <p>List all Employees according to the defined landed period.</p>
       operationId: findAll
       parameters:
-        - $ref: '#/components/parameters/periodBeginningQueryParam'
-        - $ref: '#/components/parameters/periodEndingQueryParam'
-        - $ref: '#/components/parameters/pageQueryParam'
-        - $ref: '#/components/parameters/sizeQueryParam'
+      - $ref: '#/components/parameters/periodBeginningQueryParam'
+      - $ref: '#/components/parameters/periodEndingQueryParam'
+      - $ref: '#/components/parameters/pageQueryParam'
+      - $ref: '#/components/parameters/sizeQueryParam'
       responses:
         200:
           description: Employees List.
           headers:
             Link:
               $ref: '#/components/headers/link'
-            Total-Elements: 
+            Total-Elements:
               $ref: '#/components/headers/totalElements'
           content:
             application/json:
@@ -47,14 +48,14 @@ paths:
                 $ref: '#/components/schemas/PropertyError'
     post:
       tags:
-        - Employees
+      - Employees
       summary: Add a new Employee
       operationId: addOne
       requestBody:
         $ref: '#/components/requestBodies/employee'
       responses:
         201:
-          description: 'Employee added successfully'
+          description: Employee added successfully
           headers:
             Location:
               $ref: '#/components/headers/location'
@@ -77,11 +78,11 @@ paths:
   /employees/{cpf}:
     get:
       tags:
-        - Employee
+      - Employee
       operationId: findOne
       summary: find an Employee by cpf
       parameters:
-        - $ref: '#/components/parameters/cpfEmployeePathParam'
+      - $ref: '#/components/parameters/cpfEmployeePathParam'
       responses:
         200:
           description: Employee found
@@ -94,49 +95,48 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'            
+                $ref: '#/components/schemas/Problem'
     patch:
       tags:
-        - Employee
-      summary: 'Update the Employee Boarding Status'
+      - Employee
+      summary: Update the Employee Boarding Status
       operationId: mergePatch
       parameters:
-        - $ref: '#/components/parameters/cpfEmployeePathParam'
+      - $ref: '#/components/parameters/cpfEmployeePathParam'
       requestBody:
         $ref: '#/components/requestBodies/employeeMergePatch'
       responses:
         200:
-          description: 'Boarding Status Updated successfully'
+          description: Boarding Status Updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employee'
         422:
-          description: 'Unprocessable Entity.'
+          description: Unprocessable Entity.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PropertyError'
-       
 components:
   headers:
-    totalElements: 
+    totalElements:
       $ref: 'models/schemas/headers/total-elements.yaml#/Total-Elements'
     link:
       $ref: 'models/schemas/headers/link.yaml#/Link'
     location:
-      $ref: 'models/schemas/headers/location.yaml#/Location'      
+      $ref: 'models/schemas/headers/location.yaml#/Location'
   schemas:
     Employee:
-      $ref: 'models/employee/employee.yaml#/Employee'
+      $ref: models/employee/employee.yaml#/Employee
     EmployeeMergePatch:
-      $ref: 'models/employee/employee-merge-patch.yaml#/EmployeeMergePatch'
+      $ref: models/employee/employee-merge-patch.yaml#/EmployeeMergePatch
     EmployeePage:
-      $ref: 'models/employee/employee-page.yaml#/EmployeePage'
+      $ref: models/employee/employee-page.yaml#/EmployeePage
     Problem:
-      $ref: 'models/schemas/problem-details.yaml#/ProblemDetails'
+      $ref: models/schemas/problem-details.yaml#/ProblemDetails
     PropertyError:
-      $ref: 'models/schemas/property-error.yaml#/PropertyError'      
+      $ref: models/schemas/property-error.yaml#/PropertyError
   parameters:
     cpfEmployeePathParam:
       in: path
@@ -144,8 +144,9 @@ components:
       description: The Employee's CPF
       required: true
       schema:
-        type: integer
-        format: int64
+        type: string
+        minLength: 11
+        maxLength: 11 
     periodBeginningQueryParam:
       in: query
       name: periodBeginning
@@ -154,7 +155,7 @@ components:
       schema:
         type: string
         format: full-date
-        example: 2021-06-23
+        example: 2021-06-23T00:00:00Z
     periodEndingQueryParam:
       in: query
       name: periodEnding
@@ -163,11 +164,11 @@ components:
       schema:
         type: string
         format: full-date
-        example: 2021-06-23        
+        example: 2021-06-23T00:00:00Z
     pageQueryParam:
-      $ref: 'models/schemas/parameters/query/page.yaml#/PageQueryParam'
+      $ref: models/schemas/parameters/query/page.yaml#/PageQueryParam
     sizeQueryParam:
-      $ref: 'models/schemas/parameters/query/size.yaml#/SizeQueryParam'
+      $ref: models/schemas/parameters/query/size.yaml#/SizeQueryParam
   requestBodies:
     employee:
       required: true
