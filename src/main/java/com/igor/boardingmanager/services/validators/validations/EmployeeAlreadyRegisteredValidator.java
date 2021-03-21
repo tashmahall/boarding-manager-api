@@ -16,6 +16,7 @@ public class EmployeeAlreadyRegisteredValidator implements UnaryOperator<Employe
 
 	@Override
 	public Employee apply(Employee t) {
+		
 		if(repository.existsByCpf(t.getCpf())) {
 			throw new InvalidEmployeeException("The employee CPF ["+t.getCpf()+"] already bean registered.");
 		}

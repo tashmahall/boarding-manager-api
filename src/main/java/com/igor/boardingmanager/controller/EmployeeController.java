@@ -3,9 +3,9 @@ package com.igor.boardingmanager.controller;
 import java.net.URI;
 import java.time.LocalDateTime;
 
+import javax.json.JsonMergePatch;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.igor.boardingmanager.controller.assembler.EmployeeAssembler;
 import com.igor.boardingmanager.controller.mappers.dtos.EmployeeDTO;
+import com.igor.boardingmanager.controller.patch.MergePatchHelper;
+import com.igor.boardingmanager.controller.patch.PatchMediaType;
 import com.igor.boardingmanager.entities.Employee;
 import com.igor.boardingmanager.services.EmployeeService;
 
@@ -33,11 +36,15 @@ import com.igor.boardingmanager.services.EmployeeService;
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-	private ModelMapper mapper = new ModelMapper();
 	@Autowired
 	private EmployeeService service;
 	@Autowired
-	private EmployeeAssembler assembler;	
+	private EmployeeAssembler assembler;
+	
+	private ModelMapper mapper = new ModelMapper();
+	@Autowired
+	private MergePatchHelper mergePatchHelper;
+		
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
 	public ResponseEntity<EmployeeDTO> addOne(@RequestBody @Valid EmployeeDTO form) {
@@ -55,7 +62,20 @@ public class EmployeeController {
 		EmployeeDTO employee = mapper.map(service.findByCpf( cpf), EmployeeDTO.class) ;
 		return ResponseEntity.ok(employee);
 	}
-	
+	@PatchMapping(path = "/{cpf}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = {PatchMediaType.APPLICATION_MERGE_PATCH_VALUE})
+	@Transactional
+	public ResponseEntity<EmployeeDTO> mergePatch(@PathVariable ("cpf") String cpf, @RequestBody JsonMergePatch mergePatchDocument) {
+		Employee employee = (Employee)service.findByCpf(cpf).clone();
+		
+		EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
+		EmployeeDTO employeeDTOPatched = mergePatchHelper.mergePatch(mergePatchDocument,employeeDTO,EmployeeDTO.class);
+		
+		mapper.map(employeeDTOPatched, employee);
+		
+		employee = service.updateBoardingDate(employee);
+		
+		return ResponseEntity.ok(assembler.toModel(employee));
+	}
 	@GetMapping(path = "/",params = {"periodBeginning","periodEnding"})
 	public  Page<EmployeeDTO> findAll(
 			@RequestParam(name = "periodBeginning")LocalDateTime begining,

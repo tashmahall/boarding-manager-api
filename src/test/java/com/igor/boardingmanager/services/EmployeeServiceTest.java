@@ -1,6 +1,9 @@
 package com.igor.boardingmanager.services;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,20 +28,30 @@ class EmployeeServiceTest {
 	@Mock
 	private EmployeeValidatorService validator;
 	private static Employee employee;
+	private static Employee employeeBoardingDateOk;
 	
 	@BeforeAll
 	static void  init() {
+		LocalDate now = LocalDate.now();
 		employee = new Employee();
 		employee.setCpf("73220880002");
 		employee.setFunctionName("oil and gas technician");
 		employee.setCompanyName("hallybourton");
 		employee.setName("Luigi do Mario");
+		
+		employeeBoardingDateOk = new Employee();
+		employeeBoardingDateOk.setCpf("73220880002");
+		employeeBoardingDateOk.setFunctionName("oil and gas technician");
+		employeeBoardingDateOk.setCompanyName("hallybourton");
+		employeeBoardingDateOk.setName("Luigi do Mario");
+		employeeBoardingDateOk.setBoardingDate(now.plusDays(8));
+		employeeBoardingDateOk.setLandingDate(now);
 	}
 	
 	@Test
 	@DisplayName("Test employee saving method")
 	void testSave() {
-		when(validator.validate(employee)).thenReturn(employee);
+		when(validator.saveNewEmployeeValidate(employee)).thenReturn(employee);
 		when(repository.saveAndFlush(employee)).thenReturn(employee);
 		Employee test = service.save(employee);
 		Assertions.assertEquals(employee, test);
@@ -57,5 +70,14 @@ class EmployeeServiceTest {
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			service.findByCpf(employee.getCpf());
 		});
+	}
+	
+	@Test
+	@DisplayName("Test Update employee Boarding Date")
+	void testUpdateBoardingDate() {
+		when(validator.setNewEmployeeBoardingDate(employeeBoardingDateOk)).thenReturn(employeeBoardingDateOk);
+		when(repository.saveAndFlush(employeeBoardingDateOk)).thenReturn(employeeBoardingDateOk);
+		Employee test = service.updateBoardingDate(employeeBoardingDateOk);
+		Assertions.assertEquals(employeeBoardingDateOk, test);
 	}
 }

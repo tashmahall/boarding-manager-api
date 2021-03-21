@@ -15,7 +15,7 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeValidatorService validator;
 	public Employee save(Employee employee) {
-		validator.validate(employee);
+		validator.saveNewEmployeeValidate(employee);
 		return repository.saveAndFlush(employee);
 	}
 	public Employee findByCpf(String cpf) {
@@ -24,6 +24,11 @@ public class EmployeeService {
 			throw new ResourceNotFoundException("the CPF ["+cpf+"] there isn't in the database. ");
 		}
 		return employee;
+	}
+	public Employee updateBoardingDate(Employee employee) {
+		validator.setNewEmployeeBoardingDate(employee);
+		return repository.saveAndFlush(employee);
+		
 	}
 
 }

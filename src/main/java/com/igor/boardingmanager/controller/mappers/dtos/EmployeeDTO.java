@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-@AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeDTO extends RepresentationModel<EmployeeDTO> { 
 	@CPF(message="Invalid CPF")

@@ -26,8 +26,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(of = {"cpf","name"})
 @JsonIgnoreProperties(value = {"id"}, ignoreUnknown = true)
-
-public class Employee implements Serializable  {
+public class Employee implements Serializable, Cloneable {
 	/**
 	 * 
 	 */
@@ -55,6 +54,13 @@ public class Employee implements Serializable  {
 	
 	@Column(name = "LANDING_DATE", nullable = true)
 	private LocalDate landingDate;
-	
-
+	@Override
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Cloning not allowed.");
+            return this;
+        }
+	}
 }
