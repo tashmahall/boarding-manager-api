@@ -6,7 +6,8 @@ spring:
     name: '@project.artifactId@'
     version: '@project.version@'
     majorVersion: '@parsedVersion.majorVersion@'
-    
+  hateoas:
+    use-hal-as-default-json-media-type: false   
   #datasource
   datasource:
     driver-class-name: org.h2.Driver
@@ -28,15 +29,20 @@ spring:
   #h2
   h2:
     console:
-      enabled: true
+      enabled: true 
       path: /h2-console
       settings:
         web-allow-others: true
-      
+
 #Documentação
 springdoc:
+  version: '@springdoc.version@'
   api-docs:
-    enabled: false
-  swagger-ui: 
-    path: /api-docs
-    url: /openapi.yaml
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    displayRequestDuration: true
+    tagsSorter: alpha
+  cache:
+    disabled: true
