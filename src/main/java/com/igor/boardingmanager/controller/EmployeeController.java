@@ -1,7 +1,7 @@
 package com.igor.boardingmanager.controller;
 
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.json.JsonMergePatch;
 import javax.transaction.Transactional;
@@ -65,7 +65,7 @@ public class EmployeeController {
 	@PatchMapping(path = "/{cpf}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = {PatchMediaType.APPLICATION_MERGE_PATCH_VALUE})
 	@Transactional
 	public ResponseEntity<EmployeeDTO> mergePatch(@PathVariable ("cpf") String cpf, @RequestBody JsonMergePatch mergePatchDocument) {
-		Employee employee = (Employee)service.findByCpf(cpf).clone();
+		Employee employee = service.findByCpf(cpf).copy();
 		
 		EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
 		EmployeeDTO employeeDTOPatched = mergePatchHelper.mergePatch(mergePatchDocument,employeeDTO,EmployeeDTO.class);
@@ -76,13 +76,16 @@ public class EmployeeController {
 		
 		return ResponseEntity.ok(assembler.toModel(employee));
 	}
-	@GetMapping(path = "/",params = {"periodBeginning","periodEnding"})
-	public  Page<EmployeeDTO> findAll(
-			@RequestParam(name = "periodBeginning")LocalDateTime begining,
-			@RequestParam(name = "periodEnding")LocalDateTime ending,
-			Pageable pageable
-			){
-		return null;
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Page<EmployeeDTO>> findAll(
+			@RequestParam(name = "periodBeginning", required = false) String begining, 
+			@RequestParam(name = "periodEnding",required = false) String ending, 
+			Pageable pageable ){
+		LocalDate ldending = LocalDate.parse(ending);
+		LocalDate ldBegining = LocalDate.parse(begining);
+		Page<Employee> pageEmployee = service.findAll(ldBegining,ldending, pageable);
+		Page<EmployeeDTO> pageEmployeeDTO = assembler.toPage(pageEmployee,pageable);
+		return ResponseEntity.ok(pageEmployeeDTO);
 	}
 
 }
