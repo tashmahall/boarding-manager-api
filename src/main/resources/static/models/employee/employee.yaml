@@ -26,10 +26,13 @@ Employee:
       type: string
       description: 'Function Name'
       example: 'Oil and Gas Technician'  
-    boarding_status:
-      $ref: '../enums/boarding-status-enum.yaml#/BoardingStatusEnum'
     boarding_date:
       type: string
-      format: date-time
-      description: 'Date and time that boarding status has been changed'
-      example: '2020-03-23T20:49:28.168Z' 
+      format: full-date
+      description: 'Date boarding'
+      example: '2020-06-23' 
+    landing_date:
+      type: string
+      format: full-date
+      description: 'Date landing'
+      example: '2020-06-23'      

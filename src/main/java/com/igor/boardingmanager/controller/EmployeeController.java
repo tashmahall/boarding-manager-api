@@ -32,6 +32,11 @@ import com.igor.boardingmanager.controller.patch.PatchMediaType;
 import com.igor.boardingmanager.entities.Employee;
 import com.igor.boardingmanager.services.EmployeeService;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/employees")
@@ -64,7 +69,16 @@ public class EmployeeController {
 	}
 	@PatchMapping(path = "/{cpf}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = {PatchMediaType.APPLICATION_MERGE_PATCH_VALUE})
 	@Transactional
-	public ResponseEntity<EmployeeDTO> mergePatch(@PathVariable ("cpf") String cpf, @RequestBody JsonMergePatch mergePatchDocument) {
+	public ResponseEntity<EmployeeDTO> mergePatch(@PathVariable ("cpf") String cpf, 
+			@io.swagger.v3.oas.annotations.parameters.RequestBody(content = 
+			@Content(examples = 
+				@ExampleObject(value = "{\r\n"
+					+ "    \"boarding_date\":\"2021-05-01\",\r\n"
+					+ "    \"landing_date\":\"2021-05-10\"\r\n"
+					+ "}")
+				),required = true)
+			@RequestBody 
+			JsonMergePatch mergePatchDocument) {
 		Employee employee = service.findByCpf(cpf).copy();
 		
 		EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
@@ -87,5 +101,4 @@ public class EmployeeController {
 		Page<EmployeeDTO> pageEmployeeDTO = assembler.toPage(pageEmployee,pageable);
 		return ResponseEntity.ok(pageEmployeeDTO);
 	}
-
 }

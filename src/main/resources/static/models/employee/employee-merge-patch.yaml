@@ -1,12 +1,17 @@
-EmployeeMergePatch:
-  title: Employee Merge Patch
-  description: Update the status of employee
+BoardingDates:
+  title: Boarding and Landing Dates
+  description: A Day to Board and a Day to land
   type: object
+  required:
+    - landing_date
   properties:
-    boarding_status:
-      $ref: '../enums/boarding-status-enum.yaml#/BoardingStatusEnum'
+    landing_date:
+      type: string
+      format: full-date
+      description: 'Date landing'
+      example: '2020-06-23' 
     boarding_date:
       type: string
-      format: date-time
-      description: 'Date and time that boarding status has been changed'
-      example: '2020-03-23T20:49:28.168Z' 
+      format: full-date
+      description: 'Date boarding'
+      example: '2020-06-23' 

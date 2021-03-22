@@ -18,8 +18,8 @@ paths:
       description: <p>List all Employees according to the defined landed period.</p>
       operationId: findAll
       parameters:
-      - $ref: '#/components/parameters/periodBeginningQueryParam'
-      - $ref: '#/components/parameters/periodEndingQueryParam'
+      - $ref: '#/components/parameters/boardingDateQueryParam'
+      - $ref: '#/components/parameters/landingDateQueryParam'
       - $ref: '#/components/parameters/pageQueryParam'
       - $ref: '#/components/parameters/sizeQueryParam'
       responses:
@@ -130,7 +130,7 @@ components:
     Employee:
       $ref: models/employee/employee.yaml#/Employee
     EmployeeMergePatch:
-      $ref: models/employee/employee-merge-patch.yaml#/EmployeeMergePatch
+      $ref: models/employee/employee-merge-patch.yaml#/BoardingDates
     EmployeePage:
       $ref: models/employee/employee-page.yaml#/EmployeePage
     Problem:
@@ -147,24 +147,24 @@ components:
         type: string
         minLength: 11
         maxLength: 11 
-    periodBeginningQueryParam:
+    boardingDateQueryParam:
       in: query
-      name: periodBeginning
+      name: boarding_date
       description: period's first day to be verified
       required: false
       schema:
         type: string
         format: full-date
-        example: 2021-06-23T00:00:00Z
-    periodEndingQueryParam:
+        example: 2021-06-23
+    landingDateQueryParam:
       in: query
-      name: periodEnding
+      name: landing_date
       description: period's last day to be verified
       required: false
       schema:
         type: string
         format: full-date
-        example: 2021-06-23T00:00:00Z
+        example: 2021-06-23
     pageQueryParam:
       $ref: models/schemas/parameters/query/page.yaml#/PageQueryParam
     sizeQueryParam:
