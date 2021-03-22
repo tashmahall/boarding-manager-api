@@ -28,7 +28,7 @@ class BoardingPeriodDateResearcherValidatorTest {
 	private static LocalDate nowPlus14;
 	@BeforeAll
 	static void  init() {
-		LocalDate now = LocalDate.now();
+		now = LocalDate.now();
 		nowPlus14 = now.plusDays(14);
 		periodOk = new TreeMap<>();
 		periodOk.put(ENDING, nowPlus14);
