@@ -35,9 +35,7 @@ import com.igor.boardingmanager.entities.Employee;
 import com.igor.boardingmanager.services.EmployeeService;
 
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 @CrossOrigin
 @RestController
@@ -67,8 +65,11 @@ public class EmployeeController {
 	
 	@GetMapping(path = "/{cpf}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public  ResponseEntity<EmployeeDTO> findOne(@PathVariable ("cpf") String cpf){
-		EmployeeDTO employee = mapper.map(service.findByCpf( cpf), EmployeeDTO.class) ;
-		return ResponseEntity.ok(employee);
+		Employee employee = service.findByCpf(cpf).copy();
+		EmployeeDTO dto = assembler.toModel(employee);
+		
+	
+		return ResponseEntity.ok(dto);
 	}
 	@PatchMapping(path = "/{cpf}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = {PatchMediaType.APPLICATION_MERGE_PATCH_VALUE})
 	@Transactional
