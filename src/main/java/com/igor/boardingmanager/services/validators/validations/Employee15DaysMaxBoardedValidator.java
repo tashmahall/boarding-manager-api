@@ -1,6 +1,5 @@
 package com.igor.boardingmanager.services.validators.validations;
 
-import java.time.Period;
 import java.util.function.UnaryOperator;
 
 import org.springframework.stereotype.Service;
@@ -27,8 +26,8 @@ public class Employee15DaysMaxBoardedValidator implements UnaryOperator<Employee
 		if(t.getLandingDate().isBefore(t.getBoardingDate())) {
 			throw new InvalidEmployeeException("The Landing Date can not be before the Boarding date.");
 		}
-		Period period = Period.between(t.getBoardingDate(), t.getLandingDate());
-		if(period.getDays()>15) {
+		Long days = java.time.temporal.ChronoUnit.DAYS.between(t.getBoardingDate(), t.getLandingDate());
+		if(days>15) {
 			throw new InvalidEmployeeException("The Employee can be boarded at max 15 days");
 		}
 		return t;
